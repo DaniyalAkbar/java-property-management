@@ -96,7 +96,9 @@ public class Client_20321273 {
 		System.out.println("\n============================================================================================================\n\n");
 	}
 	
-	
+	public float calculate_week_rent(float week_rent_amount, int week_num) {
+		return (float) week_rent_amount * week_num;
+	}
 	
 	
 	

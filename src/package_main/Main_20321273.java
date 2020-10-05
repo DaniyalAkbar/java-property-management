@@ -3,9 +3,14 @@ package package_main;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.Flushable;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 
 public class Main_20321273 {
 
@@ -13,7 +18,6 @@ public class Main_20321273 {
 	static ArrayList<String> expenses = new ArrayList<String>();
 	static ArrayList<String> properties = new ArrayList<String>();
 	static ArrayList<String> rents = new ArrayList<String>();
-	
 
 	public static void main(String[] args) throws IOException {
 		Scanner sc = new Scanner(System.in);
@@ -72,7 +76,10 @@ public class Main_20321273 {
 		 * 
 		 */
 		while (true) {
-
+			
+			//PRINTING MAIN MENU
+			
+			System.out.println("\n");
 			System.out.println("1. Record Rent Collection");
 			System.out.println("2. Record Expense");
 			System.out.println("3. Generate Portfolio Report");
@@ -81,7 +88,7 @@ public class Main_20321273 {
 			System.out.println("Please Select an Option From the Menu...");
 			int option = sc.nextInt();
 			if(option<1 || option>5) {
-				System.out.println("Please Select an Option That is Present in the Menu\n\n\n");
+				System.out.println("Please Select an Option That is Present in the Menu\n\n");
 				continue;
 			}
 			
@@ -89,60 +96,97 @@ public class Main_20321273 {
 			switch (option) {
 
 			case 1:
-				ArrayList<String> result = new ArrayList<String>();
-					System.out.println("Please Enter a Property's Address to Search: ");
-					int count = 1;
-					int prop_found = 0;
-					String addr = sc.next().trim();
-					for (String p : properties) {
-						if (p.toLowerCase().contains(addr.toLowerCase())) {
-							result.add(count + ") @" + p);
-							count++;
-							prop_found = 1;
-						}
+				
+				ArrayList<String> summary = new ArrayList<String>();
+				ArrayList<String> result = new ArrayList<String>();	
+				Client_20321273 class_client = null;
+				System.out.println("\nPlease Enter a Property's Address to Search: ");
+				int count = 1;
+				int prop_found = 0;
+				String addr = sc.next().trim();
+				for (String p : properties) {				// FETHCING ALL THE LIST OF PREPOERTY MATCHING THE ADDRESS FROM USER INPUT
+					if (p.toLowerCase().contains(addr.toLowerCase())) {
+						result.add(count + ") @" + p);
+						count++;
+						prop_found = 1;
 					}
-					if(prop_found == 0) {
-						System.out.println("No Such Property Exist in Records\n\n\n");
-						break;
-					}
+				}
+				if(prop_found == 0) {
+					System.out.println("No Such Property Exist in Records\n\n\n");
+					break;
+				}
 				
 				
 				// DISPLAYING ALL THE SEARCHED PROPERTIES
 				result_prop(result);
 				
-				System.out.println("Please Select an Address: ");
-
+				
+				System.out.println("\nPlease Select an Address: ");
+				float week_rent_amnt = 0;
+				
 				while (true) {
 					try {
 						String prop_owner = "";
-						String property = result.get(sc.nextInt() - 1);
-						String[] client_id = property.split(",");
-						for (String c : clients) {
+						String property = result.get(sc.nextInt() - 1);	//FETCHING SELECTED ADDRESS THROUGH USER INPUT AND "-1" FOR GETTING THE INDEX OF THE ARRAY
+						String[] prop_array = property.split(",");
+						week_rent_amnt = Float.parseFloat(prop_array[prop_array.length - 3]);	//FETCHING THE WEEKLY RENT AMOUNT OF THE SELECTED PROPERTY
+						for (String c : clients) {						//FETCHING THE PROPERTY OWNERS FULL NAME FROM THE ARRAYLIST
 							String[] client = c.split(",");
-							if (client[0].equals(client_id[client_id.length - 1])) {
+							if (client[0].equals(prop_array[prop_array.length - 1])) {
 								prop_owner = client[1];
 							}
 						}
 
-						Client_20321273 c = new Client_20321273(property, prop_owner);
+						
+						class_client = new Client_20321273(property, prop_owner);	//DISPLAYING PROPERTY ADDRESS, WEEKLY RENT CHARGED AND OWNERS FULL NAME
+						summary.add("PROPERTY ADDRESS: "+class_client.getAdd());	//ADDING PROPERTY ADDRESS TO THE SUMMARY ARRAYLIST
+						summary.add("OWNER'S NAME: "+class_client.getFullName());	//ADDING PROPERTY OWNER'S FULL NAME TO THE SUMMARY ARRAYLIST
+						summary.add("MONETARY AMOUNT: "+class_client.getWeekly_rent());	//ADDING PROPERTY WEEKLY RENT AMOUNT TO THE SUMMARY ARRAYLIST
+						
+						
 						break;
 					} catch (IndexOutOfBoundsException e) {
 						System.out.println("Please Select a Valid Address");
+						continue;
+					}catch(InputMismatchException i) {
+						System.out.println("Can Only Accept Integers!");
+						continue;
 					}
 				}
 				
-				int weeks = 0;
+				
+				//FETCHING THE NUMBER OF WEEKS OF RENT COLLECTED THROUGH USER INPUT
+				//int weeks = 0;
 				while(true) {
 					try {
-						System.out.println("\n\nHow many weeks of rent was collected for the chosen property?");
-						weeks = sc.nextInt();				
+						System.out.println("\nHow many weeks of rent was collected for the chosen property?");
+						int weeks = sc.nextInt();
+						if(weeks<1 || weeks>7) { 
+							System.out.println("Please Enter a Valid Week Number...");
+							continue;
+						}
+						
+						float total_rent = new Client_20321273().calculate_week_rent(week_rent_amnt, weeks);			//FETCHING THE AMOUNT OF RENT COLLECTED FOR THE GIVEN NUMBER OF WEEKS
+						//System.out.println("\nThe Total Weeks Rent for the Selected Property is: "+total_rent+"\n\n");
+						
+						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
+						LocalDateTime now = LocalDateTime.now();  
+						summary.add("NUMBER OF WEEKS RENT COLLECTED: "+weeks);	//ADDING NUMBER OF WEEKS TO THE SUMMARY ARRAYLIST
+						summary.add("TOTAL RENT COLLECTED: "+total_rent);	//ADDING TOTAL RENT COLLECTED TO THE SUMMARY ARRAYLIST
+						summary.add("LAST RENT COLLECTION: "+dtf.format(now));	//ADDING TODAYS DATE TO THE SUMMARY ARRAYLIST
 						break;
 					}catch (Exception e) {
 						System.out.println("Please Enter an Integer");
 					}
 				}
-
 				
+
+				//PRINTING SUMMARY
+				System.out.println("\n\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+				for (String s : summary) {				// DISPLAYING EACH ITEM IN SUMMARY ARRAYLIST
+					System.out.println(s);
+				}
+				System.out.println("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n");
 				break;
 
 			case 2:
@@ -179,18 +223,18 @@ public class Main_20321273 {
 		return al;
 	}
 
-	// RECORD RENT COLLECTION
+	// FETCHING THE ADDRESS FROM THE CLIENTS TEXT FILE TO DISPLAY TO USER
 	public static void result_prop(ArrayList<String> result) {
 		if (!result.isEmpty()) {
+			System.out.println("\n=============================================================================");
 			for (String p : result) {
 				String[] x = p.split("@");
 				System.out.println(x[0] + " " + x[1]);
 			}
+			System.out.println("=============================================================================\n");
 		} else {
 			System.out.println("No Records Found!");
 		}
 	}
 
-	
 }
-
