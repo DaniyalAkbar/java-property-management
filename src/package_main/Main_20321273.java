@@ -25,64 +25,27 @@ public class Main_20321273 {
 
 	public static void main(String[] args) throws IOException {
 		Scanner sc = new Scanner(System.in);
+		
+		
+		//FETCHING AND RECORDING ALL THE TEXT FILES DATA INTO ARRYALISTS
+		
+		Client_20321273 obj_client = new Client_20321273();
+		clients = obj_client.fetchClients();
+		
+		Properties_20321273 obj_prop = new Properties_20321273();
+		properties = obj_prop.fetchProperties();
+		
+		Expenses_20321273 obj_expense = new Expenses_20321273();
+		expenses = obj_expense.fetchExpenses();
+		
+		Rents_20321273 obj_rents = new Rents_20321273();
+		rents = obj_rents.fetchRents();
 
-		// READING CLIENT TEXT FILE
-		clients = readFile("src/package_main/txtFiles/clients.txt");
-		if (!clients.isEmpty() && clients.get(0).equals("no file found")) {
-			System.out.println(
-					"No File Found. Would You Want to Type The Name of the File You Would Want Search For Instead?\nIf So Then Please Type: ");
-			String newFileName = sc.next();
-			clients = readFile("src/package_main/txtFiles/" + newFileName + ".txt");
-			if (clients.get(0).equals("no file found")) {
-				System.out.println("Still can't find the file. Creating a file named clients.txt");
-				File file = new File("src/package_main/txtFiles/clients.txt");
-				file.createNewFile();
-			}
-		}
-
-		// READING PROPERTY TEXT FILE
-		properties = readFile("src/package_main/txtFiles/properties.txt");
-		if (!properties.isEmpty() && properties.get(0).equals("no file found")) {
-			System.out.println(
-					"No File Found. Would You Want to Type The Name of the File You Would Want Search For Instead?\nIf So Then Please Type: ");
-			String newFileName = sc.next();
-			properties = readFile("src/package_main/txtFiles/" + newFileName + ".txt");
-			if (properties.get(0).equals("no file found")) {
-				System.out.println("Still can't find the file. Creating a file named properties.txt");
-				File file = new File("src/package_main/txtFiles/properties.txt");
-				file.createNewFile();
-			}
-		}
-		/*
-		 * // READING EXPENSE TEXT FILE ArrayList<String> expenses = new
-		 * ArrayList<String>(); expenses =
-		 * readFile("src/package_main/txtFiles/expenses.txt"); if (!expenses.isEmpty()
-		 * && expenses.get(0).equals("no file found")) { System.out.println(
-		 * "No File Found. Would You Want to Type The Name of the File You Would Want Search For Instead?\nIf So Then Please Type: "
-		 * ); String newFileName = sc.next(); expenses =
-		 * readFile("src/package_main/txtFiles/" + newFileName + ".txt"); if
-		 * (expenses.get(0).equals("no file found")) { System.out.
-		 * println("Still can't find the file. Creating a file named expenses.txt");
-		 * File file = new File("src/package_main/txtFiles/clients.txt");
-		 * file.createNewFile(); } }
-		 * 
-		 * // READING RENT TEXT FILE ArrayList<String> rent = new ArrayList<String>();
-		 * rent = readFile("src/package_main/txtFiles/rents.txt"); if (!rent.isEmpty()
-		 * && rent.get(0).equals("no file found")) { System.out.println(
-		 * "No File Found. Would You Want to Type The Name of the File You Would Want Search For Instead?\nIf So Then Please Type: "
-		 * ); String newFileName = sc.next(); rent =
-		 * readFile("src/package_main/txtFiles/" + newFileName + ".txt"); if
-		 * (rent.get(0).equals("no file found")) { System.out.
-		 * println("Still can't find the file. Creating a file named rents.txt"); File
-		 * file = new File("src/package_main/txtFiles/clients.txt");
-		 * file.createNewFile(); } }
-		 * 
-		 * 
-		 */
+		
+		
 		while (true) {
 			
 			//PRINTING MAIN MENU
-			
 			System.out.println("\n");
 			System.out.println("1. Record Rent Collection");
 			System.out.println("2. Record Expense");
@@ -96,21 +59,22 @@ public class Main_20321273 {
 				continue;
 			}
 			
+						
 			
 			switch (option) {
 
 			case 1:
 				
-				ArrayList<String> result = new ArrayList<String>();
+				ArrayList<String> result_1 = new ArrayList<String>();
 				summary.clear();
-				Client_20321273 class_client = null;
-				System.out.println("\nPlease Enter a Property's Address to Search: ");
 				count = 1;
 				prop_found = 0;
+				Client_20321273 class_client = null;
+				System.out.println("\nPlease Enter a Property's Address to Search: ");
 				String addr = sc.next().trim();
 				for (String p : properties) {				// FETHCING ALL THE LIST OF PREPOERTY MATCHING THE ADDRESS FROM USER INPUT
 					if (p.toLowerCase().contains(addr.toLowerCase())) {
-						result.add(count + ") @" + p);
+						result_1.add(count + ") @" + p);
 						count++;
 						prop_found = 1;
 					}
@@ -122,7 +86,7 @@ public class Main_20321273 {
 				
 				
 				// DISPLAYING ALL THE SEARCHED PROPERTIES
-				result_prop(result);
+				result_prop(result_1);
 				
 				
 				System.out.println("\nPlease Select an Address: ");
@@ -131,7 +95,7 @@ public class Main_20321273 {
 				while (true) {
 					try {
 						String prop_owner = "";
-						String property = result.get(sc.nextInt() - 1);	//FETCHING SELECTED ADDRESS THROUGH USER INPUT AND "-1" FOR GETTING THE INDEX OF THE ARRAY
+						String property = result_1.get(sc.nextInt() - 1);	//FETCHING SELECTED ADDRESS THROUGH USER INPUT AND "-1" FOR GETTING THE INDEX OF THE ARRAY
 						String[] prop_array = property.split(",");
 						week_rent_amnt = Float.parseFloat(prop_array[prop_array.length - 3]);	//FETCHING THE WEEKLY RENT AMOUNT OF THE SELECTED PROPERTY
 						for (String c : clients) {						//FETCHING THE PROPERTY OWNERS FULL NAME FROM THE ARRAYLIST
@@ -206,7 +170,7 @@ public class Main_20321273 {
 				
 			case 2:
 				
-				ArrayList<String> output = new ArrayList<String>();
+				ArrayList<String> result_2 = new ArrayList<String>();
 				summary.clear();
 				System.out.println("\nPlease Enter a Property's Address to Search: ");
 				count = 1;
@@ -214,7 +178,7 @@ public class Main_20321273 {
 				addr = sc.next().trim();
 				for (String p : properties) {				// FETHCING ALL THE LIST OF PREPOERTY MATCHING THE ADDRESS FROM USER INPUT
 					if (p.toLowerCase().contains(addr.toLowerCase())) {
-						output.add(count + ") @" + p);
+						result_2.add(count + ") @" + p);
 						count++;
 						prop_found = 1;
 					}
@@ -226,7 +190,7 @@ public class Main_20321273 {
 				
 				
 				// DISPLAYING ALL THE SEARCHED PROPERTIES
-				result_prop(output);
+				result_prop(result_2);
 				
 				
 				System.out.println("\nPlease Select an Address: ");
@@ -235,7 +199,7 @@ public class Main_20321273 {
 				while (true) {
 					try {
 						String prop_owner = "";
-						String property = output.get(sc.nextInt() - 1);	//FETCHING SELECTED ADDRESS THROUGH USER INPUT AND "-1" FOR GETTING THE INDEX OF THE ARRAY
+						String property = result_2.get(sc.nextInt() - 1);	//FETCHING SELECTED ADDRESS THROUGH USER INPUT AND "-1" FOR GETTING THE INDEX OF THE ARRAY
 						String[] prop_array = property.split(",");
 						week_rent_amount = Float.parseFloat(prop_array[prop_array.length - 3]);	//FETCHING THE WEEKLY RENT AMOUNT OF THE SELECTED PROPERTY
 						for (String c : clients) {						//FETCHING THE PROPERTY OWNERS FULL NAME FROM THE ARRAYLIST
@@ -303,7 +267,82 @@ public class Main_20321273 {
 				System.out.println("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n");
 				
 				break;
+				
+				
+				
+				
 			case 3:
+				
+				ArrayList<String> result_3 = new ArrayList<String>();
+				System.out.println("Do You Want to View Reports for:\n1)All Clients\t\t2)Specific Client\t3)All Properties in a Specific Postal Code");
+				ch = null;
+				ch = sc.next();
+				
+				
+				if(ch.equals("1")) {
+
+				}
+				
+				else if(ch.equals("2")) {
+					prop_found = 0;
+					ArrayList<String> match_clients = new ArrayList<>();
+					ArrayList<String> clients_ID = new ArrayList<>();
+					ArrayList<String> clients_name = new ArrayList<>();
+					System.out.println("Please Enter a Clients Name to Search");
+					String nm = sc.next();
+					for (String c : clients) {				// FETHCING ALL THE LIST OF CLIENTS MATCHING THE WORDS FROM USER INPUT
+						if (c.toLowerCase().contains(nm.toLowerCase())) {
+							match_clients.add(c);
+							
+							//FETCHING ITS CLIENT ID
+							String[] temp = c.split(",");
+							clients_ID.add(temp[0]);
+							clients_name.add(temp[1]);
+							prop_found = 1;
+						}
+					}
+					if(prop_found == 0) {
+						System.out.println("No Such Client Exist in Records\n\n\n");
+						break;
+					}
+					
+					//PASSING CLIENT ID AND NAME TO FETCH OWNED PROPERTIES INFO
+					ArrayList<String> prop_info = obj_prop.getProperty_info(clients_ID, clients_name);
+					
+					//PASSING RETRIEVED PROPERTY INFO TO FETCH THE RENT AMOUNT FROM RENTS.TXT
+					ArrayList<String> rent_info = obj_rents.getRent_info(prop_info);
+					
+					
+					
+
+				}
+				
+				else if(ch.equals("3")) {
+					prop_found = 0;
+					System.out.println("Please Enter a Postal Code to Search");
+					String pc = sc.next();
+					for (String c : properties) {				// FETHCING ALL THE LIST OF CLIENTS MATCHING THE WORDS FROM USER INPUT
+						if (c.toLowerCase().contains(pc.toLowerCase())) {
+							result_3.add(count + ") @" + c);
+							count++;
+							prop_found = 1;
+						}
+					}
+					if(prop_found == 0) {
+						System.out.println("No Such Property Exist in Records\n\n\n");
+						break;
+					}
+					
+					
+					// DISPLAYING ALL THE SEARCHED PROPERTIES
+					result_prop(result_3);
+				}
+				else {
+					System.out.println("You Entered an Invalid Choice");
+				}
+				
+				
+				
 				break;
 			case 4:
 				break;
@@ -315,33 +354,13 @@ public class Main_20321273 {
 		// END OF MAIN FUNCTION
 	}
 
-	// READING FROM FILES FUNCTION
-	public static ArrayList<String> readFile(String fileName) {
-		ArrayList<String> al = new ArrayList<String>();
-		try {
-			File myObj = new File(fileName);
-			Scanner myReader = new Scanner(myObj);
-			while (myReader.hasNextLine()) {
-				String data = myReader.nextLine();
-				al.add(data);
-			}
-			myReader.close();
-		} catch (FileNotFoundException e) {
-			if (e.toString().contains("No such file or directory")) {
-				al.add("no file found");
-				return al;
-			}
-		}
-		return al;
-	}
-
 	
 	
 	
 	
 	
 	
-	// FETCHING THE ADDRESS FROM THE CLIENTS TEXT FILE TO DISPLAY TO USER
+	// DISPLAYING THE ADDRESS FROM THE CLIENTS TEXT FILE TO USER
 	public static void result_prop(ArrayList<String> result) {
 		if (!result.isEmpty()) {
 			System.out.println("\n=============================================================================");
@@ -355,6 +374,17 @@ public class Main_20321273 {
 		}
 	}
 	
+	
+	//GENERATING REPORTS
+	public static void make_report(ArrayList<String> arr) {
+		try {
+			if(!arr.isEmpty()) {
+				
+			}
+		}catch (Exception e) {
+			System.out.println("An Error has Occured");
+		}
+	}
 	
 	
 	//FETCHING EXPENSE DESCRIPTION + VALIDATION
