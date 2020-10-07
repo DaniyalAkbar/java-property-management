@@ -317,31 +317,44 @@ public class Main_20321273 {
 					}
 					
 					//PASSING CLIENT ID AND NAME TO FETCH OWNED PROPERTIES INFO
-					ArrayList<String> prop_info = obj_prop.getProperty_info(clients_ID, clients_name);
-					for(String d : prop_info) {
-						System.out.println(d);
+					ArrayList<ArrayList<String>> prop_info = obj_prop.getProperty_info(clients_ID, clients_name);
+					for(ArrayList<String> d : prop_info) {
+						for(String s : d) {
+							//System.out.println(s);	
+						}
 					}
+					
 					
 					//PASSING RETRIEVED PROPERTY INFO TO FETCH THE RENT AMOUNT FROM RENTS.TXT
-					ArrayList<Double> rent_info = obj_rents.getRent_info(prop_info);
+					ArrayList<ArrayList<Double>> rent_info = obj_rents.getRent_info(prop_info);
 					if(rent_info.isEmpty() || rent_info.size()==0) {
 						System.out.println("\nNo Rent Info Found for the Client");
-						rent_info.add((double) 0);
+						//rent_info.add((double) 0);
+					}
+					System.out.println(rent_info.size());
+					for(int a = 0; a<rent_info.size(); a++) {
+						for(ArrayList<Double> d : rent_info) {
+							//System.out.println(d);
+						}
 					}
 					
-					//PASSING RETRIEVED PROPERTY INFO TO FETCH THE EXPENSE AMOUNT FROM EXPENSES.TXT
-					ArrayList<Double> expense_info = obj_expense.getExpense_info(prop_info);
-					if(expense_info.isEmpty() || expense_info.size()==0) {
-						System.out.println("\nNo Expense Info Found for the Client");
-						expense_info.add((double) 0);
-					}
-					for(double d : expense_info) {
-						System.out.println(d);
-					}
-					
-										
-					//GENERATING AND PRINTING REPORT
-					obj_report.generate_report(clients_name, prop_info, (ArrayList<Double>) rent_info, expense_info);
+//					//PASSING RETRIEVED PROPERTY INFO TO FETCH THE EXPENSE AMOUNT FROM EXPENSES.TXT
+//					ArrayList<Double> expense_info = obj_expense.getExpense_info(prop_info);
+//					if(expense_info.isEmpty() || expense_info.size()==0) {
+//						System.out.println("\nNo Expense Info Found for the Client");
+//						expense_info.add((double) 0);
+//					}
+//					for(double d : expense_info) {
+//						System.out.println(d);
+//					}
+//					
+//					
+//					for(int n=0; n<clients_name.size(); n++) {
+//						//GENERATING AND PRINTING REPORT
+//						obj_report.generate_report(clients_ID, clients_name, prop_info, (ArrayList<Double>) rent_info, expense_info);						
+//					}
+									
+
 
 				}
 				

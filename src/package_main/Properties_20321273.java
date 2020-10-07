@@ -101,23 +101,48 @@ public class Properties_20321273 {
 //		}
 //		
 		
-		public ArrayList<String> getProperty_info(ArrayList<String> clientID, ArrayList<String> clientName){
-			ArrayList<String> prop_info = new ArrayList<String>();
+//		public ArrayList<String> getProperty_info(ArrayList<String> clientID, ArrayList<String> clientName){
+//			ArrayList<String> prop_info = new ArrayList<String>();
+//			if(!clientID.isEmpty() && !clientName.isEmpty()) {				
+//				for(String id : clientID) {									//INNER LOOP TO MATCH THE CLIENT ID FROM INDIVIDUAL PROPERTY TO THE PARAMETER ID VALUE
+//					for(String s : this.getProperties()) {							//OUTTER LOOP TRAVERSING INDIVIDUAL PROPERTY
+//						String[] _prop = s.split(",");						
+//						if(_prop[_prop.length - 1].equals(id)) {
+//							prop_info.add(s);
+//						}
+//					}
+//
+//				}
+//
+//				return prop_info;
+//			}
+//			return null;														//IF NO VALUE WAS MATCHED AND FOUND THEN RETURN A BLANK ARRAYLIST
+//		}
+		
+		
+		
+		//NESTED ARRAYLIST FOR PROPERTIES
+		
+		public ArrayList<ArrayList<String>> getProperty_info(ArrayList<String> clientID, ArrayList<String> clientName){
+			
+			ArrayList<ArrayList<String>> prop_info = new ArrayList<ArrayList<String>>();
 			if(!clientID.isEmpty() && !clientName.isEmpty()) {				
 				for(String id : clientID) {									//INNER LOOP TO MATCH THE CLIENT ID FROM INDIVIDUAL PROPERTY TO THE PARAMETER ID VALUE
+					ArrayList<String> temp = new ArrayList<String>();
 					for(String s : this.getProperties()) {							//OUTTER LOOP TRAVERSING INDIVIDUAL PROPERTY
 						String[] _prop = s.split(",");						
 						if(_prop[_prop.length - 1].equals(id)) {
-							prop_info.add(s);
+							temp.add(s);
 						}
 					}
-
+					prop_info.add(temp);
 				}
 
 				return prop_info;
 			}
 			return null;														//IF NO VALUE WAS MATCHED AND FOUND THEN RETURN A BLANK ARRAYLIST
 		}
+		
 		
 		
 		

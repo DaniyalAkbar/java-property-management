@@ -8,103 +8,108 @@ import java.util.Scanner;
 
 public class Rents_20321273 {
 
-	
-	Rents_20321273(){	}
-	
-	
+	Rents_20321273() {
+	}
+
 	public ArrayList<String> rents;
-	
-	
-	
+
 	public ArrayList<String> getRents() {
 		return rents;
 	}
+
 	public void setRents(ArrayList<String> rents) {
 		this.rents = rents;
 	}
 
-	
-	
-	
-	
-	
-	
 	// READING FROM FILES FUNCTION
-		public static ArrayList<String> readFile(String fileName) {
-			ArrayList<String> al = new ArrayList<String>();
-			try {
-				File myObj = new File(fileName);
-				Scanner myReader = new Scanner(myObj);
-				while (myReader.hasNextLine()) {
-					String data = myReader.nextLine();
-					al.add(data);
-				}
-				myReader.close();
-			} catch (FileNotFoundException e) {
-				if (e.toString().contains("No such file or directory")) {
-					al.add("no file found");
-					return al;
-				}
+	public static ArrayList<String> readFile(String fileName) {
+		ArrayList<String> al = new ArrayList<String>();
+		try {
+			File myObj = new File(fileName);
+			Scanner myReader = new Scanner(myObj);
+			while (myReader.hasNextLine()) {
+				String data = myReader.nextLine();
+				al.add(data);
 			}
-			return al;
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			if (e.toString().contains("No such file or directory")) {
+				al.add("no file found");
+				return al;
+			}
 		}
-		
-		
-		public ArrayList<String> fetchRents() throws IOException{
-			Scanner sc = new Scanner(System.in);
+		return al;
+	}
 
-			// READING RENTS TEXT FILE
-			ArrayList<String> clients = new ArrayList<String>();
-			clients = readFile("src/package_main/txtFiles/rents.txt");
-			if (!clients.isEmpty() && clients.get(0).equals("no file found")) {
-				System.out.println("No Rensts File Found. Would You Want to Type The Name of the File You Would Want Search For Instead?\nIf So Then Please Type: ");
-				String newFileName = sc.next();
-				clients = readFile("src/package_main/txtFiles/" + newFileName + ".txt");
-				if (clients.get(0).equals("no file found")) {
-					System.out.println("Still can't find the file. Creating a file named rents.txt");
-					File file = new File("src/package_main/txtFiles/rents.txt");
-					file.createNewFile();
-					clients.clear();
-				}
+	public ArrayList<String> fetchRents() throws IOException {
+		Scanner sc = new Scanner(System.in);
+
+		// READING RENTS TEXT FILE
+		ArrayList<String> clients = new ArrayList<String>();
+		clients = readFile("src/package_main/txtFiles/rents.txt");
+		if (!clients.isEmpty() && clients.get(0).equals("no file found")) {
+			System.out.println(
+					"No Rensts File Found. Would You Want to Type The Name of the File You Would Want Search For Instead?\nIf So Then Please Type: ");
+			String newFileName = sc.next();
+			clients = readFile("src/package_main/txtFiles/" + newFileName + ".txt");
+			if (clients.get(0).equals("no file found")) {
+				System.out.println("Still can't find the file. Creating a file named rents.txt");
+				File file = new File("src/package_main/txtFiles/rents.txt");
+				file.createNewFile();
+				clients.clear();
 			}
-			this.setRents(clients);
-			return clients;
 		}
-		
-		
-		
-		
-		
-		
-		public ArrayList<Double> getRent_info(ArrayList<String> propInfo){
-			ArrayList<Double> rent_info = new ArrayList();
-			if(!propInfo.isEmpty() ) {				
-				for(String _rent : this.getRents()) {							//OUTTER LOOP TRAVERSING INDIVIDUAL RENT
-					String[] r = _rent.split(",");
-					for(String _prop : propInfo) {								//TRAVERSING INDIVIDUAL RENT
-						String[] p = _prop.split(",");
-						if(r[0].equals(p[0])) {									//MATCHING THE PROPERTY ID FROM INDIVIDUAL RENT TO THE PARAMETER ID VALUE
-							rent_info.add(Double.parseDouble(r[1]));
+		this.setRents(clients);
+		return clients;
+	}
+
+//		public ArrayList<Double> getRent_info(ArrayList<String> propInfo){
+//			ArrayList<Double> rent_info = new ArrayList();
+//			if(!propInfo.isEmpty() ) {				
+//				for(String _rent : this.getRents()) {							//OUTTER LOOP TRAVERSING INDIVIDUAL RENT
+//					String[] r = _rent.split(",");
+//					for(String _prop : propInfo) {								//TRAVERSING INDIVIDUAL RENT
+//						String[] p = _prop.split(",");
+//						if(r[0].equals(p[0])) {									//MATCHING THE PROPERTY ID FROM INDIVIDUAL RENT TO THE PARAMETER ID VALUE
+//							rent_info.add(Double.parseDouble(r[1]));
+//						}
+//					}
+//				}
+//				return rent_info;
+//			}
+//			return null;														//IF NO VALUE WAS MATCHED AND FOUND THEN RETURN A BLANK ARRAYLIST
+//		}
+
+	public ArrayList<ArrayList<Double>> getRent_info(ArrayList<ArrayList<String>> propInfo) {
+
+		ArrayList<ArrayList<Double>> rent_info = new ArrayList<ArrayList<Double>>();
+		if (!propInfo.isEmpty()) {
+			for (ArrayList<String> _propArr : propInfo) {
+				for (String _rent : this.getRents()) { 									// OUTTER LOOP TRAVERSING INDIVIDUAL RENT
+					ArrayList<Double> temp = new ArrayList<Double>();
+					String[] r = _rent.split(",");													// TRAVERSING INDIVIDUAL RENT
+					for (String s : _propArr) {
+						String[] p = s.split(",");
+						if (r[0].equals(p[0])) { 						// MATCHING THE PROPERTY ID FROM INDIVIDUAL RENT TO THE PARAMETER ID VALUE
+							temp.add(Double.parseDouble(r[1]));
 						}
 					}
+					rent_info.add(temp);
 				}
-				return rent_info;
 			}
-			return null;														//IF NO VALUE WAS MATCHED AND FOUND THEN RETURN A BLANK ARRAYLIST
+			return rent_info;
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		return null; // IF NO VALUE WAS MATCHED AND FOUND THEN RETURN A BLANK ARRAYLIST
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

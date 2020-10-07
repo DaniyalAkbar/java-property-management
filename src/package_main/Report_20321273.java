@@ -12,7 +12,7 @@ public class Report_20321273 extends Client_20321273 {
 	public Report_20321273() {
 	}
 
-	public void generate_report(ArrayList<String> clientName, ArrayList<String> propInfo, ArrayList<Double> rentInfo,ArrayList<Double> expenseInfo) {
+	public void generate_report(ArrayList<String> clientID, ArrayList<String> clientName, ArrayList<String> propInfo, ArrayList<Double> rentInfo,ArrayList<Double> expenseInfo) {
 		
 		DecimalFormat df = new DecimalFormat("0.00");
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 			// FETCHING CURRENT DATE
