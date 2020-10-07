@@ -318,35 +318,30 @@ public class Main_20321273 {
 					
 					//PASSING CLIENT ID AND NAME TO FETCH OWNED PROPERTIES INFO
 					ArrayList<String> prop_info = obj_prop.getProperty_info(clients_ID, clients_name);
-					
+					for(String d : prop_info) {
+						System.out.println(d);
+					}
 					
 					//PASSING RETRIEVED PROPERTY INFO TO FETCH THE RENT AMOUNT FROM RENTS.TXT
-					ArrayList<Float> rent_info = obj_rents.getRent_info(prop_info);
+					ArrayList<Double> rent_info = obj_rents.getRent_info(prop_info);
 					if(rent_info.isEmpty() || rent_info.size()==0) {
-						System.out.println("No Rent Info Found for the Client");
-						rent_info.add((float) 0);
+						System.out.println("\nNo Rent Info Found for the Client");
+						rent_info.add((double) 0);
 					}
 					
 					//PASSING RETRIEVED PROPERTY INFO TO FETCH THE EXPENSE AMOUNT FROM EXPENSES.TXT
-					ArrayList<Float> expense_info = obj_expense.getExpense_info(prop_info);
+					ArrayList<Double> expense_info = obj_expense.getExpense_info(prop_info);
 					if(expense_info.isEmpty() || expense_info.size()==0) {
-						System.out.println("No Expense Info Found for the Client");
-						expense_info.add((float) 0);
+						System.out.println("\nNo Expense Info Found for the Client");
+						expense_info.add((double) 0);
+					}
+					for(double d : expense_info) {
+						System.out.println(d);
 					}
 					
-					
-					
-					ArrayList<Float> temp = (ArrayList<Float>) rent_info.stream().distinct().collect(Collectors.toList());
-					int x = 0;
-					for(Float t : temp) {
-						int count = (int) Collections.frequency(rent_info, t);
-						System.out.println(count);
-						x++;
-					}
-					
-					
+										
 					//GENERATING AND PRINTING REPORT
-					obj_report.generate_report(clients_name, prop_info, (ArrayList<Float>) rent_info.stream().distinct().collect(Collectors.toList()), expense_info);
+					obj_report.generate_report(clients_name, prop_info, (ArrayList<Double>) rent_info, expense_info);
 
 				}
 				
@@ -408,16 +403,7 @@ public class Main_20321273 {
 	}
 	
 	
-	//GENERATING REPORTS
-	public static void make_report(ArrayList<String> arr) {
-		try {
-			if(!arr.isEmpty()) {
-				
-			}
-		}catch (Exception e) {
-			System.out.println("An Error has Occured");
-		}
-	}
+
 	
 	
 	//FETCHING EXPENSE DESCRIPTION + VALIDATION

@@ -76,15 +76,15 @@ public class Rents_20321273 {
 		
 		
 		
-		public ArrayList<Float> getRent_info(ArrayList<String> propInfo){
-			ArrayList<Float> rent_info = new ArrayList();
+		public ArrayList<Double> getRent_info(ArrayList<String> propInfo){
+			ArrayList<Double> rent_info = new ArrayList();
 			if(!propInfo.isEmpty() ) {				
 				for(String _rent : this.getRents()) {							//OUTTER LOOP TRAVERSING INDIVIDUAL RENT
 					String[] r = _rent.split(",");
 					for(String _prop : propInfo) {								//TRAVERSING INDIVIDUAL RENT
 						String[] p = _prop.split(",");
 						if(r[0].equals(p[0])) {									//MATCHING THE PROPERTY ID FROM INDIVIDUAL RENT TO THE PARAMETER ID VALUE
-							rent_info.add(Float.parseFloat(r[1]));
+							rent_info.add(Double.parseDouble(r[1]));
 						}
 					}
 				}

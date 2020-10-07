@@ -168,17 +168,7 @@ public class Client_20321273 {
 		return (float) week_rent_amount * week_num;
 	}
 	
-	//GENERATING REPORTS
-	public static void make_report(ArrayList<String> arr) {
-		try {
-			if(!arr.isEmpty()) {
-				
-			}
-		}catch (Exception e) {
-			System.out.println("An Error has Occured");
-		}
-	}
-	
+
 	
 	
 	
