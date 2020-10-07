@@ -75,4 +75,36 @@ public class Expenses_20321273 {
 			this.setExpenses(clients);
 			return clients;
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		public ArrayList<Float> getExpense_info(ArrayList<String> propInfo){
+			ArrayList<Float> expense_info = new ArrayList<Float>();
+			if(!propInfo.isEmpty() ) {				
+				for(String _exp : this.getExpenses()) {							//OUTTER LOOP TRAVERSING INDIVIDUAL EXPENSE
+					String[] e = _exp.split(",");
+					for(String _prop : propInfo) {								//TRAVERSING INDIVIDUAL EXPENSE
+						String[] p = _prop.split(",");
+						if(e[0].equals(p[0])) {									//MATCHING THE PROPERTY ID FROM INDIVIDUAL EXPENSE TO THE PARAMETER ID VALUE
+							expense_info.add(Float.parseFloat(e[2]));
+						}
+					}
+				}
+				return expense_info;
+			}
+			return null;														//IF NO VALUE WAS MATCHED AND FOUND THEN RETURN A BLANK ARRAYLIST
+		}
+		
+		
+		
+		
+				
+		
 }

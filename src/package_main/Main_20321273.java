@@ -1,6 +1,8 @@
 package package_main;
 
 import java.util.Scanner;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Flushable;
@@ -11,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.*;
 
 public class Main_20321273 {
 
@@ -40,6 +43,8 @@ public class Main_20321273 {
 		
 		Rents_20321273 obj_rents = new Rents_20321273();
 		rents = obj_rents.fetchRents();
+		
+		Report_20321273 obj_report = new Report_20321273();
 
 		
 		
@@ -306,14 +311,42 @@ public class Main_20321273 {
 						break;
 					}
 					
+					System.out.println("\n\nThese are the Clients Name Found:");
+					for(String n : clients_name) {
+						System.out.println(n);
+					}
+					
 					//PASSING CLIENT ID AND NAME TO FETCH OWNED PROPERTIES INFO
 					ArrayList<String> prop_info = obj_prop.getProperty_info(clients_ID, clients_name);
 					
+					
 					//PASSING RETRIEVED PROPERTY INFO TO FETCH THE RENT AMOUNT FROM RENTS.TXT
-					ArrayList<String> rent_info = obj_rents.getRent_info(prop_info);
+					ArrayList<Float> rent_info = obj_rents.getRent_info(prop_info);
+					if(rent_info.isEmpty() || rent_info.size()==0) {
+						System.out.println("No Rent Info Found for the Client");
+						rent_info.add((float) 0);
+					}
+					
+					//PASSING RETRIEVED PROPERTY INFO TO FETCH THE EXPENSE AMOUNT FROM EXPENSES.TXT
+					ArrayList<Float> expense_info = obj_expense.getExpense_info(prop_info);
+					if(expense_info.isEmpty() || expense_info.size()==0) {
+						System.out.println("No Expense Info Found for the Client");
+						expense_info.add((float) 0);
+					}
 					
 					
 					
+					ArrayList<Float> temp = (ArrayList<Float>) rent_info.stream().distinct().collect(Collectors.toList());
+					int x = 0;
+					for(Float t : temp) {
+						int count = (int) Collections.frequency(rent_info, t);
+						System.out.println(count);
+						x++;
+					}
+					
+					
+					//GENERATING AND PRINTING REPORT
+					obj_report.generate_report(clients_name, prop_info, (ArrayList<Float>) rent_info.stream().distinct().collect(Collectors.toList()), expense_info);
 
 				}
 				
